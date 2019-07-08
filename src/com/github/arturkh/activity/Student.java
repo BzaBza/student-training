@@ -1,16 +1,16 @@
 package com.github.arturkh.activity;
 
 public class Student {
-    private int knowledge;
-    private int practice;
+    private int knowledge = 0;
+    private int practice = 0;
     private String name;
-    private boolean isHasLaptop;
+    private boolean hasLaptop;
     private double learningRate;
     private boolean insuranceInUniversity;
     private boolean insuranceInInternship;
 
-    public Student(boolean isHasLaptop, String name, double learningRate, boolean insuranceInUniversity, boolean insuranceInInternship) {
-        this.isHasLaptop = isHasLaptop;
+    public Student(boolean hasLaptop, String name, double learningRate, boolean insuranceInUniversity, boolean insuranceInInternship) {
+        this.hasLaptop = hasLaptop;
         this.name = name;
         this.learningRate = learningRate;
         this.insuranceInUniversity = insuranceInUniversity;
@@ -30,11 +30,11 @@ public class Student {
     }
 
     public void setKnowledge(int knowledge) {
-        this.knowledge = knowledge;
+        this.knowledge += knowledge;
     }
 
     public void setPractice(int practice) {
-        this.practice = practice;
+        this.practice += practice;
     }
 
     public int getKnowledge() {
@@ -46,7 +46,7 @@ public class Student {
     }
 
     public boolean getIsHasLaptop() {
-        return isHasLaptop;
+        return hasLaptop;
     }
 
     String getName() {

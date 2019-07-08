@@ -1,13 +1,10 @@
 package com.github.arturkh.activity.schedule;
 
-import java.time.Period;
+import java.time.LocalDate;
 
 public class ScheduleWeekend implements Schedule {
-    public ScheduleWeekend(Period period) {
-    }
-
     @Override
-    public boolean isActive(Period localDate) {
+    public boolean isActive(LocalDate localDate) {
         return true;
     }
 }

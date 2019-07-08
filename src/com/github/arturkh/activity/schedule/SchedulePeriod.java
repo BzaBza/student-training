@@ -1,14 +1,15 @@
 package com.github.arturkh.activity.schedule;
 
-import java.time.Period;
+import java.time.LocalDate;
+import java.util.List;
 
 public class SchedulePeriod implements Schedule {
 
-    public SchedulePeriod(Period afterFiveYears) {
+    public SchedulePeriod(List<LocalDate> period) {
     }
 
     @Override
-    public boolean isActive(Period localDate) {
+    public boolean isActive(LocalDate localDate) {
         return true;
     }
 }
