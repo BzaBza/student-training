@@ -5,6 +5,7 @@ import com.github.arturkh.activity.knowledgeSource.KnowledgeSource;
 import com.github.arturkh.activity.knowledgeSource.University;
 import com.github.arturkh.activity.schedule.Schedule;
 import com.github.arturkh.activity.schedule.ScheduleWeekend;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -18,51 +19,46 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
 public class DevPlanTest {
+
+    private Student oksana;
+    private LocalDate today;
+
+    @BeforeEach
+    void setUp() {
+        oksana = new Student("Oksana", false, 1.0);
+        today = LocalDate.now();
+    }
+
     @Test
     void performingPlan__withoutActivity__givesNoEffect() {
-        HashMap<Student, List<LocalDate>> studentPlan = new HashMap<>();
-
-        Student oksana = new Student("Oksana", false, 1.0);
-        LocalDate localDate = LocalDate.now();
-
-        studentPlan.put(oksana, Collections.singletonList(localDate));
+        // given
         DevPlan devPlan = new DevPlan();
 
-        devPlan.perform(studentPlan);
+        // when
+        devPlan.perform(oksana, today);
 
+        // then
         assertThat(oksana.getKnowledge(), is(0));
     }
 
     @Test
     void performingPlan__withOneKnowledgeSource__increaseStudentKnowledge() {
-        HashMap<Student, List<LocalDate>> studentPlan = new HashMap<>();
-
-        Student oksana = new Student("Oksana", false, 1.0);
-
-        LocalDate localDate = LocalDate.now();
-        studentPlan.put(oksana, Collections.singletonList(localDate));
         DevPlan devPlan = new DevPlan();
 
         devPlan.addActivity(new Internship(), asList(new ScheduleWeekend()));
 
-        devPlan.perform(studentPlan);
+        devPlan.perform(oksana, today);
 
         assertThat(oksana.getKnowledge(), is(2));
     }
 
     @Test
     void performingPlan__withTwoElementsInDevPlan__increaseStudentKnowledge() {
-        HashMap<Student, List<LocalDate>> studentPlan = new HashMap<>();
-
-        Student oksana = new Student("Oksana", false, 1.0);
-
-        LocalDate localDate = LocalDate.now();
-        studentPlan.put(oksana, Collections.singletonList(localDate));
         DevPlan devPlan = new DevPlan();
         devPlan.addActivity(new Internship(), asList(new ScheduleWeekend()));
         devPlan.addActivity(new University(), asList(new ScheduleWeekend()));
 
-        devPlan.perform(studentPlan);
+        devPlan.perform(oksana, today);
 
         assertThat(oksana.getKnowledge(), is(8));
     }

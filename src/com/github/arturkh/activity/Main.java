@@ -36,7 +36,7 @@ public class Main {
         DevPlan consciousStudent = new DevPlan();
         consciousStudent.addActivity(new Internship(), listOfSchedules);
         consciousStudent.addActivity(new University(), listOfSchedules);
-        consciousStudent.perform(studentPlan);
+        consciousStudent.perform(grisha, LocalDate.now());
 
         System.out.println("Student name - " + oksana.getName() + " Student knowledge " + oksana.getKnowledge() + " Student practice  " + oksana.getPractice());
     }
