@@ -2,38 +2,40 @@ package com.github.arturkh.activity;
 
 import com.github.arturkh.activity.knowledgeSource.KnowledgeSource;
 import com.github.arturkh.activity.schedule.Schedule;
-import com.github.arturkh.activity.schedule.ScheduleComposite;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class DevPlan {
+public class DevPlan {
 
-    private HashMap<KnowledgeSource, ArrayList<Schedule>> plan;
+    private HashMap<KnowledgeSource, List<Schedule>> plan = new HashMap<>();
 
-    void setDevPlan(HashMap<KnowledgeSource, ArrayList<Schedule>> plan) {
-        this.plan = plan;
-    }
+    public void perform(HashMap<Student, List<LocalDate>> studentPlan) {
+        for (Map.Entry<KnowledgeSource, List<Schedule>> entry : plan.entrySet()) {
+            List<Schedule> schedules = entry.getValue();
 
-    void perform(HashMap<Student, List<LocalDate>> studentPlan) {
-        for (Map.Entry<KnowledgeSource, ArrayList<Schedule>> entry : plan.entrySet()) {
-            Schedule schedule = null;
-            for (int z = 0; z < entry.getValue().size(); z++) {
-                Schedule prevSchedule = entry.getValue().get(z);
-                Schedule nextSchedule = entry.getValue().get(z < entry.getValue().size() ? +1 : +0);
-                schedule = new ScheduleComposite(prevSchedule, nextSchedule);
-            }
+            Schedule schedule = joinSchedules(schedules);
 
             Activity activity = new Activity(entry.getKey(), schedule);
 
             for (Map.Entry<Student, List<LocalDate>> inside : studentPlan.entrySet()) {
-                for (int i = 0; i <= inside.getValue().size(); i++) {
-                    activity.tryToApply(inside.getKey(), inside.getValue().get(i != inside.getValue().size() ? +0 : +0));
+                for (int i = 0; i < inside.getValue().size(); i++) {
+                    Student student = inside.getKey();
+                    inside.getValue().size();
+                    LocalDate day = inside.getValue().get(+0);
+                    activity.tryToApply(student, day);
                 }
             }
         }
+    }
+
+    private Schedule joinSchedules(List<Schedule> schedules) {
+        return schedules.get(0);
+    }
+
+    public void addActivity(KnowledgeSource knowledgeSource, List<Schedule> schedules) {
+        plan.put(knowledgeSource, schedules);
     }
 }

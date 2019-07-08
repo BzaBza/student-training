@@ -6,27 +6,15 @@ public class Student {
     private String name;
     private boolean hasLaptop;
     private double learningRate;
-    private boolean insuranceInUniversity;
-    private boolean insuranceInInternship;
 
-    public Student(boolean hasLaptop, String name, double learningRate, boolean insuranceInUniversity, boolean insuranceInInternship) {
+    public Student(String name, boolean hasLaptop, double learningRate) {
         this.hasLaptop = hasLaptop;
         this.name = name;
         this.learningRate = learningRate;
-        this.insuranceInUniversity = insuranceInUniversity;
-        this.insuranceInInternship = insuranceInInternship;
     }
 
     public double getLearningRate() {
         return learningRate;
-    }
-
-    public boolean isInsuranceInUniversity() {
-        return insuranceInUniversity;
-    }
-
-    public boolean isInsuranceInInternship() {
-        return insuranceInInternship;
     }
 
     public void setKnowledge(int knowledge) {
