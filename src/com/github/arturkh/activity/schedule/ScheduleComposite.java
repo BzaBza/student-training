@@ -14,8 +14,6 @@ public class ScheduleComposite implements Schedule {
 
     @Override
     public boolean isActive(LocalDate localDate) {
-        boolean isActive = false;
-        if (prevSchedule.isActive(localDate) && nextSchedule.isActive(localDate)) isActive = true;
-        return isActive;
+        return prevSchedule.isActive(localDate) && nextSchedule.isActive(localDate);
     }
 }

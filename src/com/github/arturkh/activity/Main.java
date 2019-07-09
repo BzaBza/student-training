@@ -1,7 +1,6 @@
 package com.github.arturkh.activity;
 
 import com.github.arturkh.activity.knowledgeSource.Internship;
-import com.github.arturkh.activity.knowledgeSource.KnowledgeSource;
 import com.github.arturkh.activity.knowledgeSource.University;
 import com.github.arturkh.activity.schedule.Schedule;
 import com.github.arturkh.activity.schedule.SchedulePeriod;
@@ -36,7 +35,6 @@ public class Main {
         DevPlan consciousStudent = new DevPlan();
         consciousStudent.addActivity(new Internship(), listOfSchedules);
         consciousStudent.addActivity(new University(), listOfSchedules);
-        consciousStudent.perform(grisha, LocalDate.now());
 
         System.out.println("Student name - " + oksana.getName() + " Student knowledge " + oksana.getKnowledge() + " Student practice  " + oksana.getPractice());
     }

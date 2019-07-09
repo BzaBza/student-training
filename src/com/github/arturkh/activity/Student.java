@@ -13,16 +13,14 @@ public class Student {
         this.learningRate = learningRate;
     }
 
-    public double getLearningRate() {
-        return learningRate;
-    }
-
     public void setKnowledge(int knowledge) {
-        this.knowledge += knowledge;
+        if (knowledge > 0)
+            this.knowledge += (int) (knowledge * learningRate);
     }
 
     public void setPractice(int practice) {
-        this.practice += practice;
+        if (practice > 0)
+            this.practice += (int) (practice * learningRate);
     }
 
     public int getKnowledge() {

@@ -8,9 +8,7 @@ public class Internship implements KnowledgeSource {
 
     @Override
     public void educate(Student student) {
-        int dailyPortionOfKnowledge = (int) (KnowledgeOfOneDay * student.getLearningRate());
-        int dailyPortionOfPractice = (int) (PracticeOfOneDay * student.getLearningRate());
-        student.setKnowledge(dailyPortionOfKnowledge);
-        student.setPractice(dailyPortionOfPractice);
+        student.setKnowledge(KnowledgeOfOneDay);
+        student.setPractice(PracticeOfOneDay);
     }
 }
