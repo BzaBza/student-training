@@ -13,24 +13,18 @@ public class DevPlan {
     private List<Activity> activities = new ArrayList<>();
 
     public void perform(Student student, List<LocalDate> dates) {
-        for (Activity activity : activities) {
-            for (LocalDate date : dates){
+        for (LocalDate date : dates) {
+            for (Activity activity : activities) {
                 activity.tryToApply(student, date);
             }
         }
     }
 
-    private Schedule joinSchedules(List<Schedule> schedules) {
-        Schedule firstSchedule = null;
-        Schedule nextSchedule = null;
-        for (int i = 0; i < schedules.size(); i++){
-           firstSchedule = schedules.get(i);
-           nextSchedule = schedules.get(+0);
-        }
-        return new ScheduleComposite(firstSchedule, nextSchedule);
-    }
-
     public void addActivity(KnowledgeSource knowledgeSource, List<Schedule> schedules) {
         activities.add(new Activity(knowledgeSource, joinSchedules(schedules)));
+    }
+
+    private Schedule joinSchedules(List<Schedule> schedules) {
+        return schedules.stream().reduce(d -> true, ScheduleComposite::new);
     }
 }

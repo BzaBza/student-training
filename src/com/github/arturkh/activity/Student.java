@@ -31,7 +31,7 @@ public class Student {
         return practice;
     }
 
-    public boolean getIsHasLaptop() {
+    public boolean hasLaptop() {
         return hasLaptop;
     }
 

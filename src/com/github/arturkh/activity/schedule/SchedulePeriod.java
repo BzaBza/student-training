@@ -1,21 +1,18 @@
 package com.github.arturkh.activity.schedule;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class SchedulePeriod implements Schedule {
-    List<LocalDate> period;
+    private LocalDate firstDay;
+    private LocalDate lastDay;
 
-    public SchedulePeriod(List<LocalDate> period) {
-        this.period = period;
+    public SchedulePeriod(LocalDate firstDay, LocalDate lastDay) {
+        this.firstDay = firstDay;
+        this.lastDay = lastDay;
     }
 
     @Override
     public boolean isActive(LocalDate localDate) {
-        boolean isThisDayInPeriod = false;
-        for (int i = 0 ; i < period.size(); i++){
-            isThisDayInPeriod = period.get(i) == localDate;
-        }
-        return isThisDayInPeriod;
+        return !localDate.isBefore(firstDay) && !localDate.isAfter(lastDay);
     }
 }
