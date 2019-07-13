@@ -13,14 +13,22 @@ public class Student {
         this.learningRate = learningRate;
     }
 
-    public void setKnowledge(int knowledge) {
+    public void toStudy(int knowledge) {
         if (knowledge > 0)
             this.knowledge += (int) (knowledge * learningRate);
     }
 
-    public void setPractice(int practice) {
+    public void toPractice(int practice) {
         if (practice > 0)
-            this.practice += (int) (practice * learningRate);
+            this.practice += practice;
+    }
+    public void educate(Student student){
+        if (this.knowledge > student.getKnowledge()){
+            student.toStudy(this.knowledge / 100);
+        }
+        if (this.practice > student.getPractice()){
+            student.toPractice(this.practice / 100);
+        }
     }
 
     public int getKnowledge() {
@@ -35,7 +43,7 @@ public class Student {
         return hasLaptop;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 

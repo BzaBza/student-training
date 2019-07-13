@@ -1,14 +1,12 @@
 import com.github.arturkh.activity.DevPlan;
 import com.github.arturkh.activity.Student;
-import com.github.arturkh.activity.knowledgeSource.Internship;
-import com.github.arturkh.activity.knowledgeSource.University;
+import com.github.arturkh.activity.knowledgeSource.Institutions;
+import com.github.arturkh.activity.knowledgeSource.SelfEducation;
 import com.github.arturkh.activity.schedule.SchedulePeriod;
-import com.github.arturkh.activity.schedule.ScheduleWeekend;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,66 +39,46 @@ public class DevPlanTest {
     }
 
     @Test
-    void performingPlan__withOneKnowledgeSource__increaseStudentKnowledge() {
+    void performingPlan__withInstitutionNotEnroll__notIncreaseStudentKnowledge() {
         DevPlan devPlan = new DevPlan();
-
-        devPlan.addActivity(new Internship(), asList(new ScheduleWeekend()));
+        Institutions university = new Institutions(2, 3);
+        devPlan.addActivity(university, asList());
 
         devPlan.perform(oksana, Collections.singletonList(today));
 
-        assertThat(oksana.getKnowledge(), is(2));
+        assertThat(oksana.getKnowledge(), is(0));
     }
 
     @Test
     void performingPlan__withTwoElementsInDevPlan__increaseStudentKnowledge() {
         DevPlan devPlan = new DevPlan();
-        University chdtu = new University();
-        chdtu.setKnowledgeOfOneDay(5);
-        chdtu.setPracticeOfOneDay(2);
-        devPlan.addActivity(new Internship(), asList(new ScheduleWeekend()));
-        devPlan.addActivity(chdtu, asList(new ScheduleWeekend()));
+        Institutions university = new Institutions(7, 3);
+        SelfEducation selfEducation = new SelfEducation(1, 1);
+        university.enrollStudent(oksana);
+        devPlan.addActivity(university, asList());
+        devPlan.addActivity(selfEducation, asList());
 
         devPlan.perform(oksana, Collections.singletonList(today));
 
-        assertThat(oksana.getKnowledge(), is(7));
+        assertThat(oksana.getKnowledge(), is(8));
     }
 
-    @Test
-    void performingPlan__withTwoSchedules__increaseStudentKnowledge() {
-        List<LocalDate> period = today.datesUntil(LocalDate.of(2019, Month.JULY, 12)).collect(Collectors.toList());
-        LocalDate today = LocalDate.now();
-        LocalDate firstDay = today.minusDays(1);
-        LocalDate lastDay = today.plusDays(1);
-        DevPlan devPlan = new DevPlan();
-        University chdtu = new University();
-        chdtu.setKnowledgeOfOneDay(5);
-        chdtu.setPracticeOfOneDay(2);
-        devPlan.addActivity(new Internship(), asList(new ScheduleWeekend()));
-        devPlan.addActivity(chdtu, asList(new SchedulePeriod(firstDay, lastDay)));
 
-        devPlan.perform(oksana, period);
-
-        assertThat(oksana.getKnowledge(), is(14));
-    }
     @Test
     void performingPlan__withTwoSchedules__increaseStudentKnowledgeByOneSchedule() {
-        List<LocalDate> period = today.datesUntil(LocalDate.of(2019, Month.JULY, 10)).collect(Collectors.toList());
-
         LocalDate today = LocalDate.now();
+        List<LocalDate> period = today.datesUntil(today.plusDays(1)).collect(Collectors.toList());
         LocalDate firstDay = today.minusDays(1);
         LocalDate lastDay = today.plusDays(1);
-
+        Institutions institutions = new Institutions(5 , 2);
+        institutions.enrollStudent(oksana);
         DevPlan devPlan = new DevPlan();
-        University chdtu = new University();
-        chdtu.setKnowledgeOfOneDay(5);
-        chdtu.setPracticeOfOneDay(2);
 
-        devPlan.addActivity(new Internship(), asList(new ScheduleWeekend(), new SchedulePeriod(firstDay , lastDay), new ScheduleWeekend(), new ScheduleWeekend()));
-        devPlan.addActivity(chdtu, asList(new SchedulePeriod(firstDay , lastDay)));
+        devPlan.addActivity(institutions, asList(new SchedulePeriod(firstDay , lastDay)));
 
         devPlan.perform(oksana, period);
 
-        assertThat(oksana.getKnowledge(), is(0));
+        assertThat(oksana.getKnowledge(), is(5));
     }
 
     @Test

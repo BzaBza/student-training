@@ -1,18 +1,5 @@
 package com.github.arturkh.activity;
 
-import com.github.arturkh.activity.knowledgeSource.Internship;
-import com.github.arturkh.activity.knowledgeSource.University;
-import com.github.arturkh.activity.schedule.Schedule;
-import com.github.arturkh.activity.schedule.SchedulePeriod;
-import com.github.arturkh.activity.schedule.ScheduleWeekend;
-
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class Main {
     public static void main(String[] args) {
 //        LocalDate dateFrom = LocalDate.now();
