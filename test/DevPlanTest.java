@@ -67,18 +67,19 @@ public class DevPlanTest {
     @Test
     void performingPlan__withTwoSchedules__increaseStudentKnowledgeByOneSchedule() {
         LocalDate today = LocalDate.now();
-        List<LocalDate> period = today.datesUntil(today.plusDays(1)).collect(Collectors.toList());
         LocalDate firstDay = today.minusDays(1);
         LocalDate lastDay = today.plusDays(1);
+
+        List<LocalDate> period = today.datesUntil(lastDay.plusYears(5)).collect(Collectors.toList());
         Institutions institutions = new Institutions(5 , 2);
         institutions.enrollStudent(oksana);
         DevPlan devPlan = new DevPlan();
 
-        devPlan.addActivity(institutions, asList(new SchedulePeriod(firstDay , lastDay)));
+        devPlan.addActivity(institutions, asList(new SchedulePeriod(firstDay , lastDay.plusYears(5))));
 
         devPlan.perform(oksana, period);
 
-        assertThat(oksana.getKnowledge(), is(5));
+        assertThat(oksana.getKnowledge(), is(9140));
     }
 
     @Test

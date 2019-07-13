@@ -1,5 +1,8 @@
 package com.github.arturkh.activity;
 
+import com.github.arturkh.activity.knowledgeSource.KnowledgeSource;
+import com.github.arturkh.activity.knowledgeSource.Teacher;
+
 public class Student {
     private int knowledge = 0;
     private int practice = 0;
@@ -22,13 +25,10 @@ public class Student {
         if (practice > 0)
             this.practice += practice;
     }
-    public void educate(Student student){
-        if (this.knowledge > student.getKnowledge()){
-            student.toStudy(this.knowledge / 100);
-        }
-        if (this.practice > student.getPractice()){
-            student.toPractice(this.practice / 100);
-        }
+    public KnowledgeSource educate(Student student){
+        Teacher teacher = new Teacher(knowledge, practice);
+        teacher.educate(student);
+        return teacher;
     }
 
     public int getKnowledge() {

@@ -1,8 +1,6 @@
 import com.github.arturkh.activity.DevPlan;
 import com.github.arturkh.activity.Student;
-import com.github.arturkh.activity.knowledgeSource.Institutions;
-import com.github.arturkh.activity.knowledgeSource.Meetup;
-import com.github.arturkh.activity.schedule.ScheduleHolidays;
+import com.github.arturkh.activity.knowledgeSource.SelfEducation;
 import com.github.arturkh.activity.schedule.ScheduleOneDayOfMonth;
 import com.github.arturkh.activity.schedule.SchedulePeriod;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,24 +17,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class KnowledgeSourceTest {
     private Student oksana;
+    private Student grisha;
     private LocalDate today;
 
     @BeforeEach
     void setUp() {
         oksana = new Student("Oksana", false, 1.0);
+        grisha = new Student("Grisha", true, 1.0);
         today = LocalDate.now();
     }
 
     @Test
-    void performingPlan__withMeetup__increaseKnowledgeLevel() {
+    void performingPlan__withSelfEducation__increaseKnowledgeLevel() {
         LocalDate today = LocalDate.now();
         List<LocalDate> period = today.datesUntil(today.plusDays(21)).collect(Collectors.toList());
         ScheduleOneDayOfMonth scheduleOneDayOfMonth = new ScheduleOneDayOfMonth(DayOfWeek.FRIDAY);
-        Meetup meetup = new Meetup(2,1,false);
+        SelfEducation selfEducation = new SelfEducation(2,1);
 
         DevPlan devPlan = new DevPlan();
 
-        devPlan.addActivity(meetup, asList(scheduleOneDayOfMonth));
+        devPlan.addActivity(selfEducation, asList(scheduleOneDayOfMonth));
 
         devPlan.perform(oksana, period);
 
@@ -45,22 +44,26 @@ public class KnowledgeSourceTest {
     }
 
     @Test
-    void performingPlan__withSelfEducation__increaseKnowledgeLevel() {
-        LocalDate today = LocalDate.of(2019, Month.JULY, 10);
-        Month summerHolidays = Month.JULY;
-
-        ScheduleHolidays scheduleHolidays = new ScheduleHolidays(summerHolidays);
-
-        assertThat(scheduleHolidays.isActive(today), is(false));
-    }
-
-    @Test
     void performingPlan__withStudentEducation__increaseKnowledgeLevel() {
-        LocalDate today = LocalDate.of(2019, Month.JULY, 10);
-        Month summerHolidays = Month.JULY;
+        LocalDate today = LocalDate.now();
+        List<LocalDate> period = today.datesUntil(today.plusDays(21)).collect(Collectors.toList());
+        LocalDate firstDay = today.minusDays(15);
+        LocalDate lastDay = today.plusDays(21);
+        SchedulePeriod schedulePeriod = new SchedulePeriod(firstDay, lastDay);
+        SelfEducation selfEducation = new SelfEducation(2,1);
+        DevPlan devPlan = new DevPlan();
+        devPlan.addActivity(selfEducation, asList(schedulePeriod));
+        devPlan.perform(oksana, period);
 
-        ScheduleHolidays scheduleHolidays = new ScheduleHolidays(summerHolidays);
 
-        assertThat(scheduleHolidays.isActive(today), is(false));
+        ScheduleOneDayOfMonth scheduleOneDayOfMonth = new ScheduleOneDayOfMonth(DayOfWeek.FRIDAY);
+
+        DevPlan anotherDevPlan = new DevPlan();
+
+        anotherDevPlan.addActivity(oksana.educate(grisha), asList(scheduleOneDayOfMonth));
+
+        anotherDevPlan.perform(oksana, period);
+
+        assertThat(grisha.getKnowledge(), is(oksana.getKnowledge() / 10));
     }
 }
